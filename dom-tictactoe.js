@@ -38,6 +38,8 @@ const addMarker = (id) => {
   
   // Arrange the above pieces into a single line of code
   // to add an X or O to the board to the DOM so it can be scene on the screen.
+
+  document.getElementById(id).innerHTML = currentMarker;
 }
 
 // passes the element's id attribute from HTML to be used
@@ -47,10 +49,12 @@ const updateBoard = (id) => {
   const column = parseInt(id.charAt(2)) 
 
   console.log(`you clicked the sq at ${row} and ${column}`)
-  console.log(board)
+  console.log("BOARD:", board)
 
   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
   // HINT: in your browser open up the dev tools -> console
+
+  board[row][column] = currentMarker;
 }
 
 const checkForWin = () => {
@@ -58,6 +62,7 @@ const checkForWin = () => {
   if(horizontalWin() || verticalWin() || diagonalWin()) {
     // **BONUS** you could make the dismissal of this alert window reset the board...
     window.alert(`Player ${currentMarker} won!`)
+    resetBoard()
   } else {
     // if no win, change the marker from X to O, or O to X for the next player.
     changeMarker()
@@ -65,15 +70,31 @@ const checkForWin = () => {
 }
 
 const horizontalWin = () => {
-  // @TODO, Your code here: to check for horizontal wins
+  for (let i = 0; i < board.length; i++) {
+    if (board[i][0] === 'O' && board[i][1] === 'O' && board[i][2] === 'O') {
+      return true
+    } else if (board[i][0] === 'X' && board[i][1] === 'X' && board[i][2] === 'X') {
+      return true
+    }
+  }
 }
 
 const verticalWin = () => {
-  // @TODO, Your code here: to check for vertical wins
+  for (let i = 0; i < board.length; i++) {
+    if (board[0][i] === 'O' && board[1][i] === 'O' && board[2][i] === 'O') {
+      return true
+    } else if (board[0][i] === 'X' && board[1][i] === 'X' && board[2][i] === 'X') {
+      return true
+    }
+  }
 }
 
 const diagonalWin = () => {
-  // @TODO, Your code here: to check for diagonal wins
+  if (board[0][0] === 'O' && board[1][1] === 'O' && board[2][2] === 'O' || board[0][2] === 'O' && board[1][1] === 'O' && board[2][0] === 'O') {
+    return true
+  } else if (board[0][0] === 'X' && board[1][1] === 'X' && board[2][2] === 'X' || board[0][2] === 'X' && board[1][1] === 'X' && board[2][0] === 'X') {
+    return true
+  }
 }
 
 const changeMarker = () => {
@@ -93,9 +114,17 @@ const resetBoard = () => {
     console.log(squares[i])
     squares[i].innerHTML = null
   }
+
+  changeMarker()
   
   // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
+  board = [
+    ['','',''],
+    ['','',''],
+    ['','','']
+  ];
 }
+
 
 // **BONUSES**
 
